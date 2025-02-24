@@ -292,6 +292,13 @@ body {
   margin-bottom: 15px;
 }
 
+.login__actions {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
 .btn {
   padding: 15px;
 

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { GetLogin } from "../../common/services/login-service";
 
 const Login = () => {
@@ -40,10 +40,15 @@ const Login = () => {
         onChange={(e) => setPassword(e.target.value)}
         value={password}
       />
-
-      <button className="btn" onClick={handleLogin}>
-        Log In
-      </button>
+      <div className="login__actions">
+        <button className="btn" onClick={handleLogin}>
+          {"Log In"}
+        </button>
+        <span>
+          {"Don´t have an account? "}
+          <Link to={"/register"}>{"Register"}</Link>
+        </span>
+      </div>
     </form>
   );
 };

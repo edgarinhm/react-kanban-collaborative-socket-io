@@ -1,5 +1,11 @@
+import TemperatureConverter from "../temperature-converter/TemperatureConverter";
+
 const TaskCard = () => {
-  return <div>TaskCard</div>;
+  return (
+    <>
+      <TemperatureConverter />
+    </>
+  );
 };
 
 export default TaskCard;
