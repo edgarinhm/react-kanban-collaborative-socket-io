@@ -14,6 +14,13 @@ body {
   padding: 0;
 }
 
+.task__add-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 4rem 0;
+}
+
 .navbar {
   width: 100%;
 
@@ -72,7 +79,7 @@ body {
   outline: none;
 }
 
-.addCardBtn {
+.add-card-btn {
   font-weight: 900;
 
   font-family: cursive;
@@ -290,13 +297,6 @@ body {
   padding: 10px 15px;
 
   margin-bottom: 15px;
-}
-
-.login__actions {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
 }
 
 .btn {

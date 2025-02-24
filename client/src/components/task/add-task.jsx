@@ -10,16 +10,16 @@ const AddTask = ({ socket }) => {
   };
 
   return (
-    <div>
-      <label htmlFor="add-task">Add Task</label>
+    <div className="task__add-container">
+      <label htmlFor="add-task">{"New task label:"}</label>
       <input
         className="input"
         type="text"
         id="add-task"
         onChange={(e) => setTask(e.target.value)}
       />
-      <button className="addCardBtn" onClick={handleAddTodo}>
-        Add Card
+      <button className="add-card-btn" onClick={handleAddTodo}>
+        {"Add Card"}
       </button>
     </div>
   );
