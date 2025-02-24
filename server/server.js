@@ -1,5 +1,6 @@
 
 const { tasks } = require("./data/tasks");
+const { fetchID } = require("./functions/fetch-functions");
 
 const startSocketServer = ({ socketIO }) => {
 
@@ -26,15 +27,15 @@ const startSocketServer = ({ socketIO }) => {
 
             const taskItems = tasks[category].items;
 
-            for (let i = 0; i < taskItems.length; i++) {
-                if (taskItems[i].id === id) {
-                    taskItems[i].comments.push({
+            for (const element of taskItems) {
+                if (element.id === id) {
+                    element.comments.push({
                         name: userId,
                         text: comment,
                         id: fetchID(),
                     });
 
-                    socket.emit("comments", taskItems[i].comments);
+                    socket.emit("comments", element.comments);
                 }
             }
         });

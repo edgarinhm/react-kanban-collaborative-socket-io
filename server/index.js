@@ -19,17 +19,13 @@ const socketIO = require('socket.io')(http, {
 startSocketServer({ socketIO });
 
 const loginRouter = require("./routes/login-router");
+const homeRouter = require("./routes/home-router");
 
 app.use(cors(CORS_ORIGIN));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-app.get("/home", (req, res) => {
-    res.json({
-        message: "Hello world",
-    });
-});
-
+app.use("/", homeRouter);
 app.use("/", loginRouter);
 
 http.listen(PORT, () => {
