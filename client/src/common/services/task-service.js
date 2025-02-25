@@ -1,4 +1,4 @@
-import { API_URL } from "./api-routes";
+import { API_URL } from "../constants/environment-constants";
 
 export const GetTasks = async () => {
     const response = await fetch(`${API_URL}/home`, {
