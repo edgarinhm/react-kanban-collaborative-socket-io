@@ -17,9 +17,9 @@ const TaskGrid = ({ socket }) => {
     <div className="container">
       {Object.values(tasks).map((task) => (
         <div key={task.title} className={`${task.title}__wrapper`}>
-          <h6
+          <h3
             className={`head ${task.title}__head`}
-          >{`${task.title} Tasks`}</h6>
+          >{`${task.title} Tasks`}</h3>
           <div className={`card-container ${task.title}__container`}>
             {task.items?.map((item) => (
               <TaskCard key={item.id} taskStatus={task.title} taskItem={item} />
