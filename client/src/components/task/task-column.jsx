@@ -13,6 +13,7 @@ const TaskColumn = ({ title, tasks, socket }) => {
       });
     },
   });
+
   return (
     <div ref={drop} className={`${title}__wrapper`}>
       <h3 className={`head ${title}__head`}>{`${title} Tasks`}</h3>

@@ -5,13 +5,16 @@ const AddTask = ({ socket }) => {
 
   const handleAddTodo = (event) => {
     event.preventDefault();
+    if (!task) {
+      return false;
+    }
     socket.emit("createTask", { task });
     setTask("");
   };
 
   return (
-    <div className="add-task-container">
-      <label htmlFor="add-task">{"New task label:"}</label>
+    <form autoComplete="off" noValidate className="add-task-container">
+      <label htmlFor="add-task">{"New task:"}</label>
       <input
         className="input"
         type="text"
@@ -21,7 +24,7 @@ const AddTask = ({ socket }) => {
       <button className="add-card-btn" onClick={handleAddTodo}>
         {"Add Card"}
       </button>
-    </div>
+    </form>
   );
 };
 
