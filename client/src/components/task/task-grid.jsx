@@ -13,6 +13,10 @@ const TaskGrid = ({ socket }) => {
     loadTasksData();
   }, []);
 
+  useEffect(() => {
+    socket.on("tasks", (data) => setTasks(data));
+  }, [socket]);
+
   return (
     <div className="container">
       {Object.values(tasks).map((task) => (
