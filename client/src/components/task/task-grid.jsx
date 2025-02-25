@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import { GetTasks } from "../../common/services/task-service";
+import TaskCard from "./task-card";
 
 const TaskGrid = ({ socket }) => {
   const [tasks, setTasks] = useState({});
@@ -14,18 +14,17 @@ const TaskGrid = ({ socket }) => {
   }, []);
 
   return (
-    <div>
-      {Object.entries(tasks).map((task) => (
-        <div key={task[1].title}>
-          <h6>{`${task[1].title} Tasks`}</h6>
-          {task[1].items?.map((item) => (
-            <div key={item.id}>
-              {item.title}
-              <Link to={"/comments"}>
-                {item.comments.length > 0 ? `View Comments` : "Add Comment"}
-              </Link>
-            </div>
-          ))}
+    <div className="container">
+      {Object.values(tasks).map((task) => (
+        <div key={task.title} className={`${task.title}__wrapper`}>
+          <h6
+            className={`head ${task.title}__head`}
+          >{`${task.title} Tasks`}</h6>
+          <div className={`card-container ${task.title}__container`}>
+            {task.items?.map((item) => (
+              <TaskCard key={item.id} taskStatus={task.title} taskItem={item} />
+            ))}
+          </div>
         </div>
       ))}
     </div>

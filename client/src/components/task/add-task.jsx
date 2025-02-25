@@ -10,7 +10,7 @@ const AddTask = ({ socket }) => {
   };
 
   return (
-    <div className="task__add-container">
+    <div className="add-task-container">
       <label htmlFor="add-task">{"New task label:"}</label>
       <input
         className="input"
