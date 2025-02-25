@@ -11,7 +11,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/task" element={<Task />} />
-        <Route path="/comments" element={<Comments />} />
+        <Route path="/comments/:id/:status" element={<Comments />} />
         <Route path="*" element={<Login />} />
       </Routes>
     </BrowserRouter>

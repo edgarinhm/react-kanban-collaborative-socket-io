@@ -4,7 +4,7 @@ const TaskCard = ({ taskStatus, taskItem }) => {
   return (
     <div className={`${taskStatus}__items`}>
       {taskItem.title}
-      <Link to={"/comments"}>
+      <Link to={`/comments/${taskItem.id}/${taskStatus}`}>
         {taskItem.comments.length > 0 ? `View Comments` : "Add Comment"}
       </Link>
     </div>
