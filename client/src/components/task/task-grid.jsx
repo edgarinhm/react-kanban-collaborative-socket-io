@@ -1,36 +1,43 @@
 import { useEffect, useState } from "react";
 import { GetTasks } from "../../common/services/task-service";
-import TaskCard from "./task-card";
+import { TaskStatus } from "../../common/constants/task-status-constants";
+import { HTML5Backend } from "react-dnd-html5-backend";
+import { DndProvider } from "react-dnd";
+import TaskColumn from "./task-column";
 
 const TaskGrid = ({ socket }) => {
-  const [tasks, setTasks] = useState({});
+  const [tasks, setTasks] = useState();
+
+  const colums = Object.values(TaskStatus);
 
   useEffect(() => {
     const loadTasksData = async () => {
       const tasksData = await GetTasks();
-      setTasks(tasksData);
+      setTasks(Object.values(tasksData));
     };
     loadTasksData();
   }, []);
 
   useEffect(() => {
-    socket.on("tasks", (data) => setTasks(data));
+    socket.on("tasks", (tasksData) => setTasks(Object.values(tasksData)));
   }, [socket]);
+
+  if (!tasks) {
+    return "Loading tasks...";
+  }
 
   return (
     <div className="container">
-      {Object.values(tasks).map((task) => (
-        <div key={task.title} className={`${task.title}__wrapper`}>
-          <h3
-            className={`head ${task.title}__head`}
-          >{`${task.title} Tasks`}</h3>
-          <div className={`card-container ${task.title}__container`}>
-            {task.items?.map((item) => (
-              <TaskCard key={item.id} taskStatus={task.title} taskItem={item} />
-            ))}
-          </div>
-        </div>
-      ))}
+      <DndProvider backend={HTML5Backend}>
+        {colums.map((column) => (
+          <TaskColumn
+            key={column}
+            title={column}
+            tasks={tasks?.filter((task) => task.title === column)[0]}
+            socket={socket}
+          />
+        ))}
+      </DndProvider>
     </div>
   );
 };

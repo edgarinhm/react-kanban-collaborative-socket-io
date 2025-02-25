@@ -8,7 +8,9 @@ const startSocketServer = ({ socketIO }) => {
         console.log(`${socket.id} User connected!`);
 
         socket.on("taskDragged", (data) => {
-            console.log(data);
+            tasks[data.status].items = tasks[data.status].items.filter(task => task.id !== data.task.id);
+            tasks[data.newStatus].items.push(data.task);
+            socket.emit("tasks", tasks);
         });
 
         socket.on('disconnect', () => {
@@ -24,7 +26,6 @@ const startSocketServer = ({ socketIO }) => {
 
         socket.on("addComment", (data) => {
             const { category, userId, comment, id } = data;
-
             const taskItems = tasks[category].items;
 
             for (const element of taskItems) {
