@@ -1,1 +1,1 @@
-export const SOCKET_CLIENT_URL = "http://localhost:4000";
+export const SOCKET_CLIENT_URL = import.meta.env.VITE_SOCKET_CLIENT_URL || "http://localhost:4000";
