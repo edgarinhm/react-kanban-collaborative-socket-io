@@ -12,7 +12,8 @@ loginRouter.post('/login', async (req, res) => {
             exec();
 
         if (!user?.id) {
-            throw Error('user or password not match');
+            const error = "user or password not match";
+            return res.status(httpStatus.BAD_REQUEST).json({ message: error });
         }
         res.json({
             message: 'Login successful',
