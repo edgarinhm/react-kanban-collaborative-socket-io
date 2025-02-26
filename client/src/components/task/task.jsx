@@ -4,8 +4,8 @@ import AddTask from "./add-task";
 import Navigation from "./navigation";
 import TaskGrid from "./task-grid";
 
-const socket = socketIO.connect(SOCKET_CLIENT_URL);
 const Task = () => {
+  const socket = socketIO.connect(SOCKET_CLIENT_URL);
   return (
     <>
       <Navigation />
