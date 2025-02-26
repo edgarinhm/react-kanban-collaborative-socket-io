@@ -10,6 +10,10 @@ const TaskGrid = ({ socket }) => {
 
   const colums = Object.values(TaskStatus);
 
+  const handleDragTask = (dropItem) => {
+    socket.emit("taskDragged", dropItem);
+  };
+
   useEffect(() => {
     const loadTasksData = async () => {
       const tasksData = await GetTasks();
@@ -34,7 +38,7 @@ const TaskGrid = ({ socket }) => {
             key={column}
             title={column}
             tasks={tasks?.filter((task) => task.title === column)[0]}
-            socket={socket}
+            onDragItem={handleDragTask}
           />
         ))}
       </DndProvider>

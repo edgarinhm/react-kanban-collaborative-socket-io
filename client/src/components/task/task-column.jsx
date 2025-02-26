@@ -1,12 +1,12 @@
 import { useDrop } from "react-dnd";
 import TaskCard from "./task-card";
 
-const TaskColumn = ({ title, tasks, socket }) => {
+const TaskColumn = ({ title, tasks, onDragItem }) => {
   const [, drop] = useDrop({
     accept: "task",
     drop: (item) => {
       const { status, ...task } = item;
-      socket.emit("taskDragged", {
+      onDragItem({
         task,
         status: status,
         newStatus: title,

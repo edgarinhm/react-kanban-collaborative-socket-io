@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const AddTask = ({ socket }) => {
+const AddTask = ({ onAddTask }) => {
   const [task, setTask] = useState("");
 
   const handleAddTodo = (event) => {
@@ -8,7 +8,7 @@ const AddTask = ({ socket }) => {
     if (!task) {
       return false;
     }
-    socket.emit("createTask", { task });
+    onAddTask(task);
     setTask("");
   };
 
