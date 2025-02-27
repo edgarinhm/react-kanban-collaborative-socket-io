@@ -1,11 +1,11 @@
 # React + Vite Collaborative kanban board
 
-# Screenshot
+## Screenshot
+
 ![home task page](image.png)
 
-
 - [React + Vite Collaborative kanban board](#react--vite-collaborative-kanban-board)
-- [Screenshot](#screenshot)
+  - [Screenshot](#screenshot)
   - [In a nutshell](#in-a-nutshell)
   - [Usage](#usage)
     - [Development](#development)
@@ -25,7 +25,7 @@
       - [React Testing Library Good-to-Knows](#react-testing-library-good-to-knows)
     - [Folder structure](#folder-structure)
     - [Deployment CI/CD](#deployment-cicd)
-    - [Demo:](#demo)
+    - [Demo](#demo)
 
 ## In a nutshell
 
@@ -144,7 +144,7 @@ See the section about [deployment](https://vitejs.dev/guide/static-deploy.html) 
     - ex: data manipulations, success/error banners, etc.
   - Test function logic
 
-* **Manual testing**
+- **Manual testing**
   - Verify functionality in dev environment (Ci1) before merging
 
 #### React Testing Library Good-to-Knows
@@ -185,6 +185,6 @@ See the section about [deployment](https://vitejs.dev/guide/static-deploy.html) 
 
 - Github Render.com integration
 
-### Demo:
+### Demo
 
-- Stage: https://react-kanban-collaborative-socket-io.onrender.com
+- Stage: <https://react-kanban-collaborative-socket-io.onrender.com>

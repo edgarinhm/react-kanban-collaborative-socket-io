@@ -35,7 +35,16 @@ const startSocketServer = ({ socketIO }) => {
                         text: comment,
                         id: fetchID(),
                     });
+                    socket.emit("comments", element.comments);
+                }
+            }
+        });
 
+        socket.on("fetchComments", (data) => {
+            const { category, id } = data;
+            const taskItems = tasks[category].items;
+            for (const element of taskItems) {
+                if (element.id === id) {
                     socket.emit("comments", element.comments);
                 }
             }
