@@ -1,6 +1,7 @@
 
 const { tasks } = require("./data/tasks");
 const { fetchID } = require("./functions/fetch-functions");
+const { CommentModel } = require("./models/comment-model");
 const { TaskModel } = require("./models/task-model");
 
 const startSocketServer = ({ socketIO }) => {
@@ -28,30 +29,16 @@ const startSocketServer = ({ socketIO }) => {
             socket.emit("tasks", tasks);
         });
 
-        socket.on("addComment", (data) => {
-            const { category, userId, comment, id } = data;
-            const taskItems = tasks[category].items;
-
-            for (const element of taskItems) {
-                if (element.id === id) {
-                    element.comments.push({
-                        name: userId,
-                        text: comment,
-                        id: fetchID(),
-                    });
-                    socket.emit("comments", element.comments);
-                }
-            }
+        socket.on("addComment", async (data) => {
+            const newComment = { text: data.comment.text, name: data.comment.name, userId: data.comment.userId, taskId: data.comment.taskId };
+            await CommentModel.create(newComment);
+            const comments = await CommentModel.find({ taskId: data.comment.taskId }).exec();
+            socket.emit("comments", comments);
         });
 
-        socket.on("fetchComments", (data) => {
-            const { category, id } = data;
-            const taskItems = tasks[category].items;
-            for (const element of taskItems) {
-                if (element.id === id) {
-                    socket.emit("comments", element.comments);
-                }
-            }
+        socket.on("fetchComments", async (data) => {
+            const comments = await CommentModel.find({ taskId: data.comment.taskId }).exec();
+            socket.emit("comments", comments);
         });
 
 
@@ -60,9 +47,6 @@ const startSocketServer = ({ socketIO }) => {
                 return await TaskModel.find({ boardId: data.task.boardId }).exec();
             }
             const tasks = await getTasks();
-
-            console.log('refreshTasks', tasks);
-
             socket.emit("tasks", tasks);
         });
     });

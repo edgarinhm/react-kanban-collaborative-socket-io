@@ -22,3 +22,11 @@ export const emitDragTask = (dropItem) => {
 export const emitRefreshTasks = (task) => {
     socket.emit("refreshTasks", { task });
 };
+
+export const emitAddComment = (comment) => {
+    socket.emit("addComment", { comment });
+};
+
+export const emitFetchComments = (comment) => {
+    socket.emit("fetchComments", { comment });
+};

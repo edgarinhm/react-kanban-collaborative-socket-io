@@ -1,6 +1,10 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { socket } from "../../lib/socket-client";
+import {
+  emitAddComment,
+  emitFetchComments,
+  socket,
+} from "../../lib/socket-client";
 
 const Comments = () => {
   const { category, id } = useParams();
@@ -9,19 +13,18 @@ const Comments = () => {
 
   const addComment = (event) => {
     event.preventDefault();
-
-    socket.emit("addComment", {
-      comment,
-      category,
-      id,
+    emitAddComment({
+      text: comment,
+      name: localStorage.getItem("username"),
       userId: localStorage.getItem("userId"),
+      taskId: id,
     });
 
     setComment("");
   };
 
   useEffect(() => {
-    socket.emit("fetchComments", { category, id });
+    emitFetchComments({ taskId: id });
   }, [category, id]);
 
   useEffect(() => {
@@ -56,7 +59,7 @@ const Comments = () => {
       <div className="comments__section">
         <h2>{"Existing Comments"}</h2>
         {commentList.map((comment) => (
-          <div key={comment.id}>
+          <div key={comment._id}>
             <p>
               <span>{comment.text}</span>
               {` by `}
