@@ -26,6 +26,9 @@ const Comments = () => {
 
   useEffect(() => {
     socket.on("comments", (data) => setCommentList(data));
+    return () => {
+      socket.off("comments");
+    };
   }, []);
 
   return (
