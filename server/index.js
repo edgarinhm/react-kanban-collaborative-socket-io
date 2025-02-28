@@ -20,6 +20,8 @@ startSocketServer({ socketIO });
 
 const loginRouter = require("./routes/login-router");
 const homeRouter = require("./routes/home-router");
+const boardRouter = require("./routes/board-router");
+const taskRouter = require("./routes/task-router");
 
 app.use(cors(CORS_ORIGIN));
 app.use(express.urlencoded({ extended: true }));
@@ -27,6 +29,9 @@ app.use(express.json());
 
 app.use("/", homeRouter);
 app.use("/", loginRouter);
+app.use("/", boardRouter);
+app.use("/", taskRouter);
+
 
 http.listen(PORT, () => {
     console.log(`Server listening on ${PORT}`);

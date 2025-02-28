@@ -1,15 +1,21 @@
 import { useState } from "react";
+import { CreateTask } from "../../common/services/task-service";
+import { emitCreateTask } from "../../lib/socket-client";
 
-const AddTask = ({ onAddTask }) => {
-  const [task, setTask] = useState("");
+const AddTask = () => {
+  const [taskTitle, setTaskTitle] = useState("");
+  const userId = localStorage.getItem("userId");
+  const boardId = localStorage.getItem("boardId");
 
-  const handleAddTodo = (event) => {
+  const handleAddTodo = async (event) => {
     event.preventDefault();
-    if (!task) {
+    if (!taskTitle) {
       return false;
     }
-    onAddTask(task);
-    setTask("");
+    const newTask = { title: taskTitle, boardId, userId };
+    await CreateTask(newTask);
+    emitCreateTask(newTask);
+    setTaskTitle("");
   };
 
   return (
@@ -19,7 +25,8 @@ const AddTask = ({ onAddTask }) => {
         className="input"
         type="text"
         id="add-task"
-        onChange={(e) => setTask(e.target.value)}
+        value={taskTitle}
+        onChange={(e) => setTaskTitle(e.target.value)}
       />
       <button className="add-card-btn" onClick={handleAddTodo}>
         {"Add Card"}

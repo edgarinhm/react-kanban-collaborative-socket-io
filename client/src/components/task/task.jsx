@@ -1,4 +1,5 @@
-import { createTask, disconnect } from "../../lib/socket-client";
+import { CreateTask } from "../../common/services/task-service";
+import { emitCreateTask, disconnect } from "../../lib/socket-client";
 import AddTask from "./add-task";
 import Navigation from "./navigation";
 import TaskGrid from "./task-grid";
@@ -13,15 +14,10 @@ const Task = () => {
     navigate("/login");
   };
 
-  const handleCreateTask = (task) => {
-    console.log("handleCreateTask", task);
-    createTask();
-  };
-
   return (
     <>
       <Navigation onLogout={handleLogout} />
-      <AddTask onAddTask={handleCreateTask} />
+      <AddTask />
       <TaskGrid />
     </>
   );

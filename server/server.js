@@ -1,16 +1,18 @@
 
 const { tasks } = require("./data/tasks");
 const { fetchID } = require("./functions/fetch-functions");
+const { TaskModel } = require("./models/task-model");
 
 const startSocketServer = ({ socketIO }) => {
 
     socketIO.on('connection', (socket) => {
         console.log(`${socket.id} User connected!`);
 
-        socket.on("taskDragged", (data) => {
-            tasks[data.status].items = tasks[data.status].items.filter(task => task.id !== data.task.id);
-            tasks[data.newStatus].items.push(data.task);
-            socket.emit("tasks", tasks);
+        socket.on("taskDragged", async (data) => {
+            const updateTask = async () => {
+                await TaskModel.findByIdAndUpdate(data.task._id, { status: data.newStatus }).exec();
+            }
+            await updateTask();
         });
 
         socket.on('disconnect', () => {
@@ -18,9 +20,11 @@ const startSocketServer = ({ socketIO }) => {
             console.log(' User disconnected');
         });
 
-        socket.on("createTask", (data) => {
-            const newTask = { id: fetchID(), title: data.task, comments: [] };
-            tasks["pending"].items.push(newTask);
+        socket.on("createTask", async (data) => {
+            const getTasks = async () => {
+                return await TaskModel.find({ boardId: data.task.boardId }).exec();
+            }
+            const tasks = await getTasks();
             socket.emit("tasks", tasks);
         });
 
@@ -48,6 +52,18 @@ const startSocketServer = ({ socketIO }) => {
                     socket.emit("comments", element.comments);
                 }
             }
+        });
+
+
+        socket.on("refreshTasks", async (data) => {
+            const getTasks = async () => {
+                return await TaskModel.find({ boardId: data.task.boardId }).exec();
+            }
+            const tasks = await getTasks();
+
+            console.log('refreshTasks', tasks);
+
+            socket.emit("tasks", tasks);
         });
     });
 }

@@ -13,6 +13,7 @@ const Login = () => {
     try {
       const data = await GetLogin({ username, password });
       localStorage.setItem("userId", data.userId);
+      localStorage.setItem("boardId", data.boardId);
       localStorage.setItem("username", username);
       alert(data.message);
       navigate("/task");

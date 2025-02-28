@@ -1,51 +1,55 @@
 import { useEffect, useState } from "react";
-import { GetTasks } from "../../common/services/task-service";
+import { GetBoardTasks } from "../../common/services/task-service";
 import { TaskStatus } from "../../common/constants/task-status-constants";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { DndProvider } from "react-dnd";
 import TaskColumn from "./task-column";
-import { dragTask, socket } from "../../lib/socket-client";
+import { socket } from "../../lib/socket-client";
 
 const TaskGrid = () => {
   const [tasks, setTasks] = useState();
-  const colums = Object.values(TaskStatus);
+  const [isLoading, setIsLoading] = useState();
 
-  const handleDragTask = (dropItem) => {
-    dragTask(dropItem);
-  };
+  const colums = Object.values(TaskStatus);
+  const boardId = localStorage.getItem("boardId");
 
   useEffect(() => {
     const loadTasksData = async () => {
-      const tasksData = await GetTasks();
-      setTasks(Object.values(tasksData));
+      setIsLoading(true);
+      try {
+        const tasksData = await GetBoardTasks(boardId);
+        setTasks(tasksData);
+      } catch (error) {
+        error && console.error("error");
+      } finally {
+        setIsLoading(false);
+      }
     };
     loadTasksData();
-  }, []);
+  }, [boardId]);
 
   useEffect(() => {
-    socket.on("tasks", (tasksData) => setTasks(Object.values(tasksData)));
+    socket.on("tasks", (tasksData) => setTasks(tasksData));
     return () => {
       socket.off("tasks");
     };
   }, []);
 
-  if (!tasks) {
-    return "Loading tasks...";
-  }
-
   return (
-    <div className="container">
-      <DndProvider backend={HTML5Backend}>
-        {colums.map((column) => (
-          <TaskColumn
-            key={column}
-            title={column}
-            tasks={tasks?.filter((task) => task.title === column)[0]}
-            onDragItem={handleDragTask}
-          />
-        ))}
-      </DndProvider>
-    </div>
+    <>
+      <div className="container">
+        <DndProvider backend={HTML5Backend}>
+          {colums.map((column) => (
+            <TaskColumn
+              key={column}
+              title={column}
+              tasks={tasks?.filter((task) => task.status === column)}
+            />
+          ))}
+        </DndProvider>
+      </div>
+      {isLoading && <div>{"Loading tasks..."}</div>}
+    </>
   );
 };
 

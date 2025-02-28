@@ -11,10 +11,14 @@ export const disconnect = () => {
     socket.disconnect();
 };
 
-export const createTask = (task) => {
+export const emitCreateTask = (task) => {
     socket.emit("createTask", { task });
 };
 
-export const dragTask = (dropItem) => {
+export const emitDragTask = (dropItem) => {
     socket.emit("taskDragged", dropItem);
+};
+
+export const emitRefreshTasks = (task) => {
+    socket.emit("refreshTasks", { task });
 };
