@@ -23,7 +23,7 @@ body {
   width: 100dvw;
   background-color: black;
   color: white;
-  height: 10vh;
+  height: 12vh;
   border-bottom: 1px solid #ddd;
   display: flex;
   align-items: center;
@@ -239,9 +239,8 @@ body {
 }
 
 .nav-actions {
-  display: flex;
-  justify-content: end;
-  align-items: center;
+  position: absolute;
+  right: 1rem;
 }
 
 .nav-actions button {

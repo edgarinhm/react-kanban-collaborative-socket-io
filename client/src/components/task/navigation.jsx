@@ -3,6 +3,7 @@ const Navigation = ({ onLogout }) => {
     <nav className="navbar">
       <div className="nav-title">{"KanBan Board"}</div>
       <div className="nav-actions">
+        {localStorage.getItem("username")}
         <button className="btn" onClick={() => onLogout()}>
           {"Logout"}
         </button>
