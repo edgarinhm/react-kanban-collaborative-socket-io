@@ -1,9 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import socketIO from "socket.io-client";
-import { SOCKET_CLIENT_URL } from "../../common/constants/environment-constants";
-
-const socket = socketIO.connect(SOCKET_CLIENT_URL);
+import { socket } from "../../lib/socket-client";
 
 const Comments = () => {
   const { category, id } = useParams();

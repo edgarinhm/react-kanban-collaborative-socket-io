@@ -4,6 +4,7 @@ import { TaskStatus } from "../../common/constants/task-status-constants";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { DndProvider } from "react-dnd";
 import TaskColumn from "./task-column";
+import { dragTask } from "../../lib/socket-client";
 
 const TaskGrid = ({ socket }) => {
   const [tasks, setTasks] = useState();
@@ -11,7 +12,7 @@ const TaskGrid = ({ socket }) => {
   const colums = Object.values(TaskStatus);
 
   const handleDragTask = (dropItem) => {
-    socket.emit("taskDragged", dropItem);
+    dragTask(dropItem);
   };
 
   useEffect(() => {
