@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import {
-  emitAddComment,
-  emitFetchComments,
-  socket,
-} from "../../lib/socket-client";
+import { emitAddComment, emitFetchComments } from "../../lib/socket-client";
+import { SOCKET_CLIENT_URL } from "../../common/constants/environment-constants";
+import { io } from "socket.io-client";
+
+const socket = io(SOCKET_CLIENT_URL);
 
 const Comments = () => {
   const { category, id } = useParams();
@@ -13,18 +13,23 @@ const Comments = () => {
 
   const addComment = (event) => {
     event.preventDefault();
-    emitAddComment({
-      text: comment,
-      name: localStorage.getItem("username"),
-      userId: localStorage.getItem("userId"),
-      taskId: id,
-    });
-
+    if (!comment) {
+      return false;
+    }
+    emitAddComment(
+      {
+        text: comment,
+        name: localStorage.getItem("username"),
+        userId: localStorage.getItem("userId"),
+        taskId: id,
+      },
+      socket
+    );
     setComment("");
   };
 
   useEffect(() => {
-    emitFetchComments({ taskId: id });
+    emitFetchComments({ taskId: id }, socket);
   }, [category, id]);
 
   useEffect(() => {

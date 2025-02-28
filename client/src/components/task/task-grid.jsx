@@ -4,9 +4,8 @@ import { TaskStatus } from "../../common/constants/task-status-constants";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { DndProvider } from "react-dnd";
 import TaskColumn from "./task-column";
-import { socket } from "../../lib/socket-client";
 
-const TaskGrid = () => {
+const TaskGrid = ({ socket }) => {
   const [tasks, setTasks] = useState();
   const [isLoading, setIsLoading] = useState();
 
@@ -33,7 +32,7 @@ const TaskGrid = () => {
     return () => {
       socket.off("tasks");
     };
-  }, []);
+  }, [socket]);
 
   return (
     <>
@@ -44,6 +43,7 @@ const TaskGrid = () => {
               key={column}
               title={column}
               tasks={tasks?.filter((task) => task.status === column)}
+              socket={socket}
             />
           ))}
         </DndProvider>

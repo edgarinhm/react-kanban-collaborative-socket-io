@@ -1,32 +1,23 @@
-import { io } from "socket.io-client";
-import { SOCKET_CLIENT_URL } from "../common/constants/environment-constants";
-
-export const socket = io(SOCKET_CLIENT_URL)
-
-socket.on("connect", () => {
-    localStorage.setItem("socketId", socket.id);
-});
-
-export const disconnect = () => {
+export const disconnect = (socket) => {
     socket.disconnect();
 };
 
-export const emitCreateTask = (task) => {
+export const emitCreateTask = (task, socket) => {
     socket.emit("createTask", { task });
 };
 
-export const emitDragTask = (dropItem) => {
+export const emitDragTask = (dropItem, socket) => {
     socket.emit("taskDragged", dropItem);
 };
 
-export const emitRefreshTasks = (task) => {
+export const emitRefreshTasks = (task, socket) => {
     socket.emit("refreshTasks", { task });
 };
 
-export const emitAddComment = (comment) => {
+export const emitAddComment = (comment, socket) => {
     socket.emit("addComment", { comment });
 };
 
-export const emitFetchComments = (comment) => {
+export const emitFetchComments = (comment, socket) => {
     socket.emit("fetchComments", { comment });
 };

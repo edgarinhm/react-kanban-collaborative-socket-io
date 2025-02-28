@@ -2,7 +2,7 @@ import { useState } from "react";
 import { CreateTask } from "../../common/services/task-service";
 import { emitCreateTask } from "../../lib/socket-client";
 
-const AddTask = () => {
+const AddTask = ({ socket }) => {
   const [taskTitle, setTaskTitle] = useState("");
   const userId = localStorage.getItem("userId");
   const boardId = localStorage.getItem("boardId");
@@ -14,7 +14,7 @@ const AddTask = () => {
     }
     const newTask = { title: taskTitle, boardId, userId };
     await CreateTask(newTask);
-    emitCreateTask(newTask);
+    emitCreateTask(newTask, socket);
     setTaskTitle("");
   };
 

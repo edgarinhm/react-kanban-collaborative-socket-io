@@ -1,6 +1,3 @@
-
-const { tasks } = require("./data/tasks");
-const { fetchID } = require("./functions/fetch-functions");
 const { CommentModel } = require("./models/comment-model");
 const { TaskModel } = require("./models/task-model");
 
@@ -14,10 +11,12 @@ const startSocketServer = ({ socketIO }) => {
                 await TaskModel.findByIdAndUpdate(data.task._id, { status: data.newStatus }).exec();
             }
             await updateTask();
+            const tasks = await TaskModel.find({ boardId: data.task.boardId }).exec();
+            socket.emit("tasks", tasks);
         });
 
         socket.on('disconnect', () => {
-            socket.disconnect()
+            socket.disconnect();
             console.log(' User disconnected');
         });
 
@@ -41,12 +40,8 @@ const startSocketServer = ({ socketIO }) => {
             socket.emit("comments", comments);
         });
 
-
         socket.on("refreshTasks", async (data) => {
-            const getTasks = async () => {
-                return await TaskModel.find({ boardId: data.task.boardId }).exec();
-            }
-            const tasks = await getTasks();
+            const tasks = await TaskModel.find({ boardId: data.task.boardId }).exec();
             socket.emit("tasks", tasks);
         });
     });

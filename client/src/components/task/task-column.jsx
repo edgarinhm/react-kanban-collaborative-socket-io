@@ -3,20 +3,22 @@ import TaskCard from "./task-card";
 import { DeleteTask } from "../../common/services/task-service";
 import { emitDragTask, emitRefreshTasks } from "../../lib/socket-client";
 
-const TaskColumn = ({ title, tasks }) => {
+const TaskColumn = ({ title, tasks, socket }) => {
   const [, drop] = useDrop({
     accept: "task",
     drop: (item) => {
-      emitDragTask({
-        task: item,
-        newStatus: title,
-      });
-      emitRefreshTasks(item);
+      emitDragTask(
+        {
+          task: item,
+          newStatus: title,
+        },
+        socket
+      );
     },
   });
   const handleDeleteTask = async (task) => {
     await DeleteTask(task._id);
-    emitRefreshTasks(task);
+    emitRefreshTasks(task, socket);
   };
 
   return (
