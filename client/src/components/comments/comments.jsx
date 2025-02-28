@@ -1,6 +1,10 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { emitAddComment, emitFetchComments } from "../../lib/socket-client";
+import {
+  emitAddComment,
+  emitDeleteComment,
+  emitFetchComments,
+} from "../../lib/socket-client";
 import { SOCKET_CLIENT_URL } from "../../common/constants/environment-constants";
 import { io } from "socket.io-client";
 
@@ -26,6 +30,10 @@ const Comments = () => {
       socket
     );
     setComment("");
+  };
+
+  const deleteComment = (comment) => {
+    emitDeleteComment(comment, socket);
   };
 
   useEffect(() => {
@@ -64,12 +72,18 @@ const Comments = () => {
       <div className="comments__section">
         <h2>{"Existing Comments"}</h2>
         {commentList.map((comment) => (
-          <div key={comment._id}>
+          <div className="card-header" key={comment._id}>
             <p>
               <span>{comment.text}</span>
               {` by `}
               {comment.name}
             </p>
+            <button
+              className="card-btn-close"
+              onClick={() => deleteComment(comment)}
+            >
+              {"x"}
+            </button>
           </div>
         ))}
       </div>

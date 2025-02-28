@@ -21,3 +21,8 @@ export const emitAddComment = (comment, socket) => {
 export const emitFetchComments = (comment, socket) => {
     socket.emit("fetchComments", { comment });
 };
+
+
+export const emitDeleteComment = (comment, socket) => {
+    socket.emit("deleteComment", { comment });
+};

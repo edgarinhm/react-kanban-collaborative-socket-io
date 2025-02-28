@@ -44,6 +44,12 @@ const startSocketServer = ({ socketIO }) => {
             const tasks = await TaskModel.find({ boardId: data.task.boardId }).exec();
             socket.emit("tasks", tasks);
         });
+
+        socket.on("deleteComment", async (data) => {
+            await CommentModel.findByIdAndDelete(data.comment._id).exec();
+            const comments = await CommentModel.find({ taskId: data.comment.taskId }).exec();
+            socket.emit("comments", comments);
+        });
     });
 }
 
