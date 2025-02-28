@@ -2,6 +2,7 @@ const express = require("express");
 const { httpStatus } = require("../constants/http-constants");
 const { KanbanBoardModel } = require("../models/kanban-board-model");
 const { TaskModel } = require("../models/task-model");
+const { CommentModel } = require("../models/comment-model");
 const boardRouter = express.Router();
 
 // get board
@@ -50,7 +51,12 @@ boardRouter.get("/board/:boardId/tasks", async (req, res) => {
             return res.status(httpStatus.BAD_REQUEST).json({ message: error });
         }
         const boardTasks = await TaskModel.find({ boardId }).exec();
-        res.json(boardTasks);
+        const taskPromises = boardTasks.map((task) => {
+            const comments = CommentModel.find({ taskId: task._id }).exec();
+            return { ...task._doc, comments }
+        });
+        const tasksWithComments = await Promise.all(taskPromises);
+        res.json(tasksWithComments);
     } catch (error) {
         console.error("get-board-tasks-error:", error);
         return res
