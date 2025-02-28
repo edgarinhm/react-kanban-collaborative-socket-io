@@ -4,11 +4,10 @@ import { TaskStatus } from "../../common/constants/task-status-constants";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { DndProvider } from "react-dnd";
 import TaskColumn from "./task-column";
-import { dragTask } from "../../lib/socket-client";
+import { dragTask, socket } from "../../lib/socket-client";
 
-const TaskGrid = ({ socket }) => {
+const TaskGrid = () => {
   const [tasks, setTasks] = useState();
-
   const colums = Object.values(TaskStatus);
 
   const handleDragTask = (dropItem) => {
@@ -25,7 +24,10 @@ const TaskGrid = ({ socket }) => {
 
   useEffect(() => {
     socket.on("tasks", (tasksData) => setTasks(Object.values(tasksData)));
-  }, [socket]);
+    return () => {
+      socket.off("tasks");
+    };
+  }, []);
 
   if (!tasks) {
     return "Loading tasks...";

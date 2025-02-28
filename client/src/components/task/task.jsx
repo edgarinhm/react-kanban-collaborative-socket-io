@@ -22,7 +22,7 @@ const Task = () => {
     <>
       <Navigation onLogout={handleLogout} />
       <AddTask onAddTask={handleCreateTask} />
-      <TaskGrid socket={socket} />
+      <TaskGrid />
     </>
   );
 };
