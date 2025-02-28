@@ -51,8 +51,8 @@ boardRouter.get("/board/:boardId/tasks", async (req, res) => {
             return res.status(httpStatus.BAD_REQUEST).json({ message: error });
         }
         const boardTasks = await TaskModel.find({ boardId }).exec();
-        const taskPromises = boardTasks.map((task) => {
-            const comments = CommentModel.find({ taskId: task._id }).exec();
+        const taskPromises = boardTasks.map(async (task) => {
+            const comments = await CommentModel.find({ taskId: task._id }).exec();
             return { ...task._doc, comments }
         });
         const tasksWithComments = await Promise.all(taskPromises);
