@@ -1,4 +1,4 @@
-import { createTask, disconnect, socket } from "../../lib/socket-client";
+import { createTask, disconnect } from "../../lib/socket-client";
 import AddTask from "./add-task";
 import Navigation from "./navigation";
 import TaskGrid from "./task-grid";
